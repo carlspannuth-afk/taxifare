@@ -8,7 +8,7 @@ def load_model(model_path):
         pipeline = load(f)
     return pipeline
 
-def predict(model, X):
+def prediction(model, X):
     prediction = model.predict(X)
     return prediction
 
@@ -22,4 +22,4 @@ X_dummy = pd.DataFrame([{
 }])
 model_path = "models/linreg_pipeline.joblib"
 model = load_model(model_path)
-print(predict(model, X_dummy))
+print(prediction(model, X_dummy))
