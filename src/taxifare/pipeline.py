@@ -1,6 +1,17 @@
 import pandas as pd
 import numpy as np
 import math
+from sklearn import set_config
+from sklearn.compose import ColumnTransformer, make_column_transformer
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, MinMaxScaler
+from sklearn.linear_model import LinearRegression, Ridge
+
+#for def timedelta
+timedelta_min = 0
+timedelta_max = 2190
+#for def manhatten_distance
+lonlat_features = ["pickup_latitude", "pickup_longitude", "dropoff_latitude", "dropoff_longitude"]
 
 
 # Passenger count pipe
@@ -20,9 +31,29 @@ def scale_distance(dist):
     scaled = (dist - dist_min) / (dist_max - dist_min)
     return scaled
 
+def manhattan_distance_vectorized(df: pd.DataFrame, start_lat: str, start_lon: str, end_lat: str, end_lon: str) -> dict:
+    """
+    Calculate the Manhattan distance in km between two points on the earth (specified in decimal degrees).
+    Vectorized version for pandas df
+    """
+    earth_radius = 6371
+
+    lat_1_rad, lon_1_rad = np.radians(df[start_lat]), np.radians(df[start_lon])
+    lat_2_rad, lon_2_rad = np.radians(df[end_lat]), np.radians(df[end_lon])
+
+    dlon_rad = lon_2_rad - lon_1_rad
+    dlat_rad = lat_2_rad - lat_1_rad
+
+    manhattan_rad = np.abs(dlon_rad) + np.abs(dlat_rad)
+    manhattan_km = manhattan_rad * earth_radius
+
+    return manhattan_km
+
 def manhattan_distance_for_pipe(df):
     distance = manhattan_distance_vectorized(df, *lonlat_features)
     return pd.DataFrame({'distance': distance})
+
+
 
 def transform_time_features(X: pd.DataFrame) -> pd.DataFrame:
     if isinstance(X, pd.Series):

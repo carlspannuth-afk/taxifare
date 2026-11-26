@@ -1735,6 +1735,7 @@ source = { editable = "." }
 dependencies = [
     { name = "db-dtypes" },
     { name = "google-cloud-bigquery" },
+    { name = "joblib" },
     { name = "matplotlib" },
     { name = "pandas" },
     { name = "scikit-learn" },
@@ -1750,6 +1751,7 @@ dev = [
 requires-dist = [
     { name = "db-dtypes", specifier = ">=1.9.0" },
     { name = "google-cloud-bigquery", specifier = ">=3.47.0" },
+    { name = "joblib", specifier = ">=1.6.0" },
     { name = "matplotlib", specifier = ">=3.11.2" },
     { name = "pandas", specifier = "<3" },
     { name = "scikit-learn", specifier = ">=1.9.1" },
