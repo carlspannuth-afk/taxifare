@@ -9,7 +9,7 @@ def load_model(model_path):
     return pipeline
 
 def predict(model, X):
-    prediction = model.transform(X)
+    prediction = model.predict(X)
     return prediction
 
 X_dummy = pd.DataFrame([{
@@ -20,6 +20,6 @@ X_dummy = pd.DataFrame([{
         'dropoff_latitude': 40.769802,
         'passenger_count': 1
 }])
-model_path = "/Users/carlspannuth/code/carlspannuth-afk/taxifare/models/linreg_pipeline.joblib"
+model_path = "models/linreg_pipeline.joblib"
 model = load_model(model_path)
 print(predict(model, X_dummy))
